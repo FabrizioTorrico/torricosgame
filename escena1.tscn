@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://crlb08unaqxs4"]
+
+[ext_resource type="Script" uid="uid://fmhrwd73abwj" path="res://fighter.gd" id="1_b7ldk"]
+[ext_resource type="Script" uid="uid://bpuahh1fyug72" path="res://main.gd" id="1_fndph"]
+
+[node name="Main" type="Node2D" unique_id=885250161]
+script = ExtResource("1_fndph")
+
+[node name="Player1" type="Node2D" parent="." unique_id=557430160]
+position = Vector2(123, 180)
+script = ExtResource("1_b7ldk")
+
+[node name="Player2" type="Node2D" parent="." unique_id=1195207287]
+position = Vector2(365, 168)
+script = ExtResource("1_b7ldk")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1490033804]
