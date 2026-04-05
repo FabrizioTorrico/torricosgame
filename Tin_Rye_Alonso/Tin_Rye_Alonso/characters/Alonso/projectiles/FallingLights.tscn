@@ -1,0 +1,182 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/FallingLights.gd" type="Script" id=1]
+[ext_resource path="res://projectile/IndicatorDraw.gd" type="Script" id=2]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/particles/LightingBreak.tscn" type="PackedScene" id=3]
+[ext_resource path="res://theme.tres" type="Theme" id=4]
+[ext_resource path="res://obj/BaseObj.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sprites/summons/BrokenLights.png" type="Texture" id=6]
+[ext_resource path="res://framework/VariableSound2D.gd" type="Script" id=7]
+[ext_resource path="res://mechanics/Hitbox.gd" type="Script" id=8]
+[ext_resource path="res://sound/common/explosion5.wav" type="AudioStream" id=9]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/RainImpact.gd" type="Script" id=10]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/RainFall.gd" type="Script" id=11]
+[ext_resource path="res://sound/common/explosion3.wav" type="AudioStream" id=12]
+[ext_resource path="res://sound/common/Block2.wav" type="AudioStream" id=13]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sfx/Ping.wav" type="AudioStream" id=14]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/particles/hit_strike_med.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sfx/Crunch.wav" type="AudioStream" id=16]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sfx/CrashFade.wav" type="AudioStream" id=17]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sprites/fx/spotlight.png" type="Texture" id=18]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Light fixture" instance=ExtResource( 5 )]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+has_projectile_parry_window = false
+immunity_susceptible = true
+deletes_other_projectiles = true
+fizzle_on_ceiling = false
+movable = true
+can_be_hit_by_melee = false
+hit_by_self_projectiles = false
+hit_cancel_on_hit = false
+free_cancel_on_hit = false
+apply_hitlag_when_hit_by_melee = true
+projectile_immune = false
+hitlag_modifier = "1.0"
+
+[node name="Sprite" parent="Flip" index="0"]
+frames = SubResource( 1 )
+
+[node name="LightBox" type="TextureRect" parent="Flip" index="2"]
+unique_name_in_owner = true
+margin_left = -200.0
+margin_top = -12.0
+margin_right = 200.0
+margin_bottom = 500.0
+rect_clip_content = true
+
+[node name="LightBeam" type="Line2D" parent="Flip/LightBox" index="0"]
+unique_name_in_owner = true
+points = PoolVector2Array( 237, 29, 160, 514 )
+width = 50.0
+default_color = Color( 0.996078, 1, 0.929412, 0 )
+texture = ExtResource( 18 )
+texture_mode = 2
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="LightBeam2" type="Line2D" parent="Flip/LightBox" index="1"]
+unique_name_in_owner = true
+points = PoolVector2Array( 162, 17, 225, 510 )
+width = 50.0
+default_color = Color( 0.996078, 1, 0.929412, 0 )
+texture = ExtResource( 18 )
+texture_mode = 2
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="HitFloor" type="AudioStreamPlayer2D" parent="Sounds" index="0"]
+stream = ExtResource( 9 )
+script = ExtResource( 7 )
+
+[node name="CollisionBox" parent="." index="2"]
+width = 43
+height = 8
+
+[node name="Hurtbox" parent="." index="3"]
+width = 46
+height = 10
+
+[node name="Default" type="Node2D" parent="StateMachine" index="0"]
+script = ExtResource( 11 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+reset_momentum = true
+apply_custom_limits = true
+custom_max_air_speed = "15"
+custom_max_ground_speed = "15"
+fallback_state = "Default"
+sprite_animation = "default"
+anim_length = 120
+ticks_per_frame = 2
+loop_animation = true
+endless = true
+enter_force_dir_y = "1"
+enter_force_speed = "15"
+enter_sfx = ExtResource( 13 )
+enter_sfx_volume = 0.0
+sfx = ExtResource( 14 )
+sfx_tick = -2
+sfx_volume = 0.0
+
+[node name="Hitbox" type="Node2D" parent="StateMachine/Default" index="0"]
+z_index = 1000
+script = ExtResource( 8 )
+y = -3
+width = 46
+height = 15
+damage = 200
+damage_in_combo = 100
+minimum_damage = 30
+hitstun_ticks = 26
+hits_otg = true
+ignore_projectile_armor = true
+parriable = false
+plus_frames = 2
+hit_particle = ExtResource( 15 )
+replace_hit_particle = true
+whiff_sound = null
+hit_sound = ExtResource( 16 )
+hit_sound_volume = 0.0
+dir_x = "0.4"
+dir_y = "1.0"
+grounded_hit_state = "HurtAerial"
+minimum_grounded_frames = 9
+knockdown = true
+knockdown_extends_hitstun = false
+ground_bounce = false
+start_tick = 1
+always_on = true
+
+[node name="Impact" type="Node2D" parent="StateMachine" index="1"]
+script = ExtResource( 10 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_custom_limits = true
+custom_max_air_speed = "6"
+custom_max_ground_speed = "6"
+fallback_state = "Default"
+sprite_animation = "hidden"
+anim_length = 20
+sprite_anim_length = 4
+ticks_per_frame = 2
+loop_animation = true
+particle_scene = ExtResource( 3 )
+spawn_particle_on_enter = true
+enter_sfx = ExtResource( 12 )
+enter_sfx_volume = 0.0
+sfx = ExtResource( 17 )
+sfx_tick = 2
+sfx_volume = -2.0
+
+[node name="IndicatorDraw" type="Node2D" parent="." index="6"]
+visible = false
+modulate = Color( 1, 1, 1, 0.588235 )
+z_index = 4096
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="IndicatorDraw" index="0"]
+margin_left = -20.0
+margin_top = -16.0
+margin_right = 20.0
+margin_bottom = 15.0
+theme = ExtResource( 4 )
+text = "P1"
+align = 1
+valign = 1

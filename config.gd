@@ -1,112 +1,87 @@
-# config.gd  — Autoload "Config"
-# ============================================================
-#   Todos los valores ajustables del juego en un lugar.
-#   Godot: Project → Project Settings → Autoload
-#          Agregar config.gd con el nombre "Config"
-# ============================================================
 extends Node
 
-# ----------------------------------------------------------
-# GRILLA
-# Un GRID_UNIT = una "casilla" de movimiento.
-# Ataque: el hitbox llega exactamente a 1 casilla (GRID_UNIT px).
-# Dash: el personaje se mueve 1 casilla POR EJE.
-#   Horizontal → 50px en X
-#   Arriba      → 50px en -Y
-#   Diagonal    → 50px en X + 50px en -Y  (NO normalizado)
-# ----------------------------------------------------------
-# ----------------------------------------------------------
-# UI / PARTIDA
-# ----------------------------------------------------------
+const GRID_UNIT := 60.0
+const GRAVITY_PER_FRAME := 4.0
 
-const GRID_UNIT := 80.0
-
-# ----------------------------------------------------------
-# FÍSICA (por frame de simulación, no por segundo)
-# advance_frame() corre a ritmo fijo; usá estos valores.
-# ----------------------------------------------------------
-const GRAVITY_PER_FRAME := 4.0   # px/frame hacia abajo cuando está en el aire
-
-# ----------------------------------------------------------
-# PROPORCIONES DEL PERSONAJE
-# ----------------------------------------------------------
 const HEAD_RADIUS := 16
 const BODY_WIDTH  := 12
 const TORSO_LEN   := 30
-const ARM_L1      := 18.0
-const ARM_L2      := 18.0
-const LEG_L1      := 18.0
-const LEG_L2      := 18.0
-const FOOT_LEN    := 6
 
-# ----------------------------------------------------------
-# POSES — offsets base por estado
-# ----------------------------------------------------------
-const POSES := {
-	"idle": {
-		"pelvis": Vector2(0, 3),
-		"chest":  Vector2(0, 3),
-		"head":   Vector2(0, 3),
-		"hand_r": Vector2(38, 22),
-		"hand_l": Vector2(-38, 22),
-		"foot_r": Vector2(14, 0),
-		"foot_l": Vector2(-14, 0),
-	},
-	"airborne": {
-		"pelvis": Vector2(0, 0),
-		"chest":  Vector2(0, -5),
-		"head":   Vector2(0, -5),
-		"hand_r": Vector2(30, -5),
-		"hand_l": Vector2(-30, -5),
-		"foot_r": Vector2(10, 10),
-		"foot_l": Vector2(-10, 10),
-	},
+const SOUNDS := {
+	"swing_light": preload("res://sfx/swish.wav"),
+	"swing_heavy": preload("res://sfx/swooshdown.wav"),
+	"hit_light":   preload("res://sfx/ping.wav"),
+	"hit_heavy":   preload("res://sfx/crunch.wav"),
+	"dash":        preload("res://sfx/fwip01.wav"),
+	"block":       preload("res://sfx/chime.wav"),
+	"hitstun":          preload("res://sfx/crashfade.wav"),
+	"ko":          preload("res://sfx/crashfade.wav")
 }
 
-# ----------------------------------------------------------
-# MOVIMIENTOS
-# ----------------------------------------------------------
+# El diccionario de movimientos con "interruptible" integrado
 const MOVES := {
 	"idle": {
-		"startup": 0, "active": 0, "recovery": 0,
+		"startup": 1, "active": 0, "recovery": 0,
 		"damage": 0, "range": 0.0, "hitbox_radius": 0,
 		"hitstun": 0, "knockback_force": 0.0,
 		"color": Color.WHITE,
 	},
-	"rapido": {
-		"startup": 3, "active": 4, "recovery": 8,
-		"damage": 10,
-		"range": 1.0 * GRID_UNIT,
-		"hitbox_radius": 18,
-		"hitstun": 10,
-		"knockback_force": 30.0,
-		"color": Color.YELLOW,
-	},
 	"dash": {
-		"startup": 1, "active": 8, "recovery": 4,
+		"startup": 2, "active": 8, "recovery": 4, # 14 frames totales
 		"damage": 0, "range": 0.0, "hitbox_radius": 0,
 		"hitstun": 0, "knockback_force": 0.0,
-		# distance_per_axis: cuántos px se mueve en cada eje activo.
-		# aim_dir.sign() da (-1,0,1) por eje → movimiento CUADRADO (no circular).
-		# Diagonal mueve GRID_UNIT en X Y GRID_UNIT en Y.
-		"distance_per_axis": 1.0 * GRID_UNIT,
+		"distance_per_axis": 1.5 * GRID_UNIT,
 		"color": Color.CYAN,
+		"sfx_startup": SOUNDS["dash"] 
+	},
+	"jab": {
+		"startup": 4, "active": 3, "recovery": 7,
+		"damage": 6, "range": 1.2 * GRID_UNIT, "hitbox_radius": 18,
+		"hitstun": 15, "knockback_force": 10.0,
+		"interruptible": false, # Un ataque te compromete
+		"color": Color.YELLOW,
+		"sfx_startup": SOUNDS["swing_light"],
+		"sfx_hit": SOUNDS["hit_light"]
+	},
+	"clawing": {
+		"startup": 6, "active": 4, "recovery": 9,
+		"damage": 12, "range": 1.35 * GRID_UNIT, "hitbox_radius": 38,
+		"hitstun": 20, "knockback_force": 18.0,
+		"interruptible": false,
+		"color": Color.ORANGE,
+		"sfx_startup": SOUNDS["swing_light"],
+		"sfx_hit": SOUNDS["hit_light"]
+	},
+	"crush": {
+		"startup": 12, "active": 5, "recovery": 15,
+		"damage": 28, "range": 1.5 * GRID_UNIT, "hitbox_radius": 60,
+		"hitstun": 28, "knockback_force": 38.0,
+		"interruptible": false,
+		"color": Color.RED,
+	"sfx_startup": SOUNDS["swing_heavy"],
+		"sfx_hit": SOUNDS["hit_heavy"]
+	},
+	"crescent": {
+		"startup": 10, "active": 6, "recovery": 12,
+		"damage": 10, "range": 0.1 * GRID_UNIT, "hitbox_radius": 120,
+		"hitstun": 18, "knockback_force": 16.0,
+		"interruptible": false,
+		"color": Color.PURPLE,
+		"sfx_startup": SOUNDS["swing_heavy"],
+		"sfx_hit": SOUNDS["hit_light"]
+	},
+	"blocking": {
+		"startup": 2, "active": 20, "recovery": 3,
+		"damage": 0, "range": 0.0, "hitbox_radius": 0,
+		"hitstun": 0, "knockback_force": 0.0,
+		"interruptible": false,
+		"color": Color.BLUE,
+		"sfx_hit": SOUNDS["block"] # Sonido especial si bloquean el ataque
 	},
 }
 
-# ----------------------------------------------------------
-# UI / PARTIDA
-# ----------------------------------------------------------
-# ----------------------------------------------------------
-# UI / PARTIDA
-# ----------------------------------------------------------
-const FRAMES_PER_TURN  := 20
-const UI_HEIGHT        := 250.0
-
-# NUEVO: Coordenadas fijas para la grilla global
-const GRID_START_X     := 400.0  # El centro de la pantalla (asumiendo 800px ancho)
-const GRID_CELLS_H     := 9      # Casillas a la izquierda y derecha del centro
-const P1_START_X_FRAC  := 0.3
-const P2_START_X_FRAC  := 0.7
+const UI_HEIGHT        := 215.0
+const GRID_START_X     := 400.0
+const GRID_CELLS_H     := 9
 const SCREEN_LEFT      := 40.0
 const SCREEN_RIGHT     := 760.0

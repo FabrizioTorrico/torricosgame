@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://characters/CharacterMaterial.tres" type="Material" id=1]
+[ext_resource path="res://fx/four_point_star.png" type="Texture" id=2]
+[ext_resource path="res://fx/particle_square_4x4.png" type="Texture" id=3]
+[ext_resource path="res://fx/ParticleEffect.gd" type="Script" id=5]
+
+[sub_resource type="Gradient" id=5]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 0.272783 ), 0.0, 7.29394, 0, 0, Vector2( 0.111446, 1 ), -2.53759, -2.53759, 0, 0, Vector2( 1, 0 ), -0.137613, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=7]
+resource_local_to_scene = true
+offsets = PoolRealArray( 0, 0.530744, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.721569, 0, 1, 0.521569, 0.721569, 0, 1, 0 )
+
+[node name="colored" type="Node2D"]
+material = ExtResource( 1 )
+script = ExtResource( 5 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.064
+one_shot = true
+
+[node name="1color" type="CPUParticles2D" parent="."]
+z_index = -1
+amount = 4
+speed_scale = 3.0
+texture = ExtResource( 3 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+angular_velocity = -200.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 6.0
+scale_amount_random = 0.3
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 5 )
+
+[node name="light_fade" type="CPUParticles2D" parent="."]
+amount = 4
+speed_scale = 3.0
+fract_delta = false
+local_coords = false
+draw_order = 1
+texture = ExtResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 15.0
+spread = 0.0
+gravity = Vector2( 0, 0 )
+scale_amount_curve = SubResource( 6 )
+color_ramp = SubResource( 7 )

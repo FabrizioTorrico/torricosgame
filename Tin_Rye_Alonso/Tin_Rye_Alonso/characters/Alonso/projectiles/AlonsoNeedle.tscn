@@ -1,0 +1,153 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://projectile/IndicatorDraw.gd" type="Script" id=1]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/AlonsoNeedleMain.gd" type="Script" id=2]
+[ext_resource path="res://theme.tres" type="Theme" id=3]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/NeedleHold.gd" type="Script" id=4]
+[ext_resource path="res://obj/BaseObj.tscn" type="PackedScene" id=5]
+[ext_resource path="res://mechanics/SweptHitbox.gd" type="Script" id=6]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sprites/prj_needle_spin-Sheet.png" type="Texture" id=7]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sprites/prj_needle.png" type="Texture" id=8]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/NeedleDefault.gd" type="Script" id=9]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/NeedleReturn.gd" type="Script" id=10]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/particles/hit_slash_med.tscn" type="PackedScene" id=11]
+[ext_resource path="res://sound/common/slash1.wav" type="AudioStream" id=12]
+[ext_resource path="res://sound/common/landing.wav" type="AudioStream" id=13]
+[ext_resource path="res://sound/common/jump1.wav" type="AudioStream" id=14]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 62, 61 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 7 )
+region = Rect2( 62, 0, 62, 61 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 61, 62, 61 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ null ],
+"loop": true,
+"name": "hidden",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ],
+"loop": true,
+"name": "spinning",
+"speed": 5.0
+} ]
+
+[node name="Needle" instance=ExtResource( 5 )]
+script = ExtResource( 2 )
+max_ground_speed = "30"
+max_air_speed = "30"
+max_fall_speed = "30"
+extra_state_variables = "throw_x
+throw_y
+force_return
+holding
+returning
+pushblocked"
+immunity_susceptible = true
+deletes_other_projectiles = true
+fizzle_on_ceiling = false
+movable = true
+can_be_hit_by_melee = false
+hit_by_self_projectiles = false
+hit_cancel_on_hit = false
+free_cancel_on_hit = false
+apply_hitlag_when_hit_by_melee = true
+projectile_immune = false
+hitlag_modifier = "1.0"
+
+[node name="Sprite" parent="Flip" index="0"]
+frames = SubResource( 4 )
+animation = "hidden"
+offset = Vector2( 18, 0 )
+
+[node name="CollisionBox" parent="." index="2"]
+width = 5
+height = 5
+
+[node name="Hurtbox" parent="." index="3"]
+width = 6
+height = 6
+
+[node name="Default" type="Node2D" parent="StateMachine" index="0"]
+script = ExtResource( 9 )
+apply_forces = true
+apply_forces_no_limit = true
+fallback_state = "Return"
+sprite_animation = "default"
+anim_length = 10
+
+[node name="SweptHitbox" type="Node2D" parent="StateMachine/Default" index="0"]
+z_index = 1000
+script = ExtResource( 6 )
+x = 10
+width = 6
+height = 6
+damage = 60
+minimum_damage = 30
+hitstun_ticks = 12
+hit_particle = ExtResource( 11 )
+replace_hit_particle = true
+whiff_sound = null
+hit_sound = ExtResource( 12 )
+hit_sound_volume = -2.0
+start_tick = 1
+always_on = true
+to_x = 32
+
+[node name="Hold" type="Node2D" parent="StateMachine" index="1"]
+script = ExtResource( 4 )
+__meta__ = {
+"_editor_description_": ""
+}
+reset_momentum = true
+fallback_state = "Return"
+sprite_animation = "spinning"
+anim_length = 30
+ticks_per_frame = 2
+loop_animation = true
+absolute_loop = true
+endless = true
+enter_sfx = ExtResource( 13 )
+enter_sfx_volume = 2.0
+
+[node name="Return" type="Node2D" parent="StateMachine" index="2"]
+script = ExtResource( 10 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+reset_momentum = true
+fallback_state = "Return"
+sprite_animation = "default"
+endless = true
+enter_sfx = ExtResource( 14 )
+enter_sfx_volume = 4.0
+
+[node name="IndicatorDraw" type="Node2D" parent="." index="6"]
+visible = false
+modulate = Color( 1, 1, 1, 0.588235 )
+z_index = 4096
+script = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="IndicatorDraw" index="0"]
+margin_left = -20.0
+margin_top = -16.0
+margin_right = 20.0
+margin_bottom = 15.0
+theme = ExtResource( 3 )
+text = "P1"
+align = 1
+valign = 1

@@ -1,0 +1,75 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://characters/CharacterMaterial.tres" type="Material" id=1]
+[ext_resource path="res://fx/ParticleEffect.gd" type="Script" id=2]
+[ext_resource path="res://fx/line.png" type="Texture" id=3]
+[ext_resource path="res://fx/four_point_star.png" type="Texture" id=4]
+[ext_resource path="res://fx/big_filled_circle.png" type="Texture" id=5]
+
+[sub_resource type="Curve" id=3]
+max_value = 2.0
+_data = [ Vector2( 0, 0.568182 ), 0.0, 3.77273, 0, 0, Vector2( 1, 2 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=4]
+resource_local_to_scene = true
+offsets = PoolRealArray( 0, 0.530744, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.721569, 0, 1, 0.521569, 0.721569, 0, 1, 0 )
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.261111, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[node name="colored" type="Node2D"]
+material = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.064
+one_shot = true
+
+[node name="light_fade" type="CPUParticles2D" parent="."]
+amount = 1
+speed_scale = 3.0
+explosiveness = 1.0
+fract_delta = false
+texture = ExtResource( 5 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+scale_amount = 3.0
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
+
+[node name="1color" type="CPUParticles2D" parent="."]
+amount = 14
+speed_scale = 3.0
+explosiveness = 1.0
+lifetime_randomness = 1.0
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.7
+angular_velocity = -360.0
+angular_velocity_random = 0.5
+angle = 180.0
+angle_random = 1.0
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 2 )
+
+[node name="1color2" type="CPUParticles2D" parent="."]
+amount = 14
+speed_scale = 3.0
+explosiveness = 1.0
+lifetime_randomness = 1.0
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = true
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.7
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 2 )

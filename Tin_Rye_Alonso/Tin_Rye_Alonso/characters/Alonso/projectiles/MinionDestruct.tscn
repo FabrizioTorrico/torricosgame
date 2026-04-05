@@ -1,0 +1,125 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/MinionDestruct.gd" type="Script" id=1]
+[ext_resource path="res://projectile/IndicatorDraw.gd" type="Script" id=2]
+[ext_resource path="res://mechanics/Hitbox.gd" type="Script" id=3]
+[ext_resource path="res://obj/BaseObj.tscn" type="PackedScene" id=4]
+[ext_resource path="res://theme.tres" type="Theme" id=5]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sprites/summons/doll_explode-Sheet.png" type="Texture" id=6]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/MinionDetonate.gd" type="Script" id=7]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/particles/hit_strike_med.tscn" type="PackedScene" id=8]
+[ext_resource path="res://sound/common/explosion1.wav" type="AudioStream" id=9]
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 36, 38 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 6 )
+region = Rect2( 36, 0, 36, 38 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 6 )
+region = Rect2( 72, 0, 36, 38 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 38, 36, 38 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 6 )
+region = Rect2( 36, 38, 36, 38 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 6 )
+region = Rect2( 72, 38, 36, 38 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), null ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="ExplodingMinion" instance=ExtResource( 4 )]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+has_projectile_parry_window = false
+immunity_susceptible = true
+deletes_other_projectiles = true
+fizzle_on_ceiling = false
+movable = true
+can_be_hit_by_melee = false
+hit_by_self_projectiles = false
+hit_cancel_on_hit = false
+free_cancel_on_hit = false
+apply_hitlag_when_hit_by_melee = true
+projectile_immune = false
+hitlag_modifier = "1.0"
+
+[node name="Sprite" parent="Flip" index="0"]
+frames = SubResource( 5 )
+offset = Vector2( 0, -17 )
+
+[node name="CollisionBox" parent="." index="2"]
+width = -1
+height = -1
+can_draw = false
+
+[node name="Hurtbox" parent="." index="3"]
+width = -1
+height = -1
+can_draw = false
+
+[node name="Default" type="Node2D" parent="StateMachine" index="0"]
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_grav = true
+fallback_state = "default"
+sprite_animation = "default"
+anim_length = 10
+endless = true
+
+[node name="Hitbox" type="Node2D" parent="StateMachine/Default" index="0"]
+z_index = 1000
+script = ExtResource( 3 )
+y = -9
+width = 23
+height = 23
+damage = 120
+minimum_damage = 40
+hitstun_ticks = 21
+hitlag_ticks = 8
+parriable = false
+hit_particle = ExtResource( 8 )
+replace_hit_particle = true
+whiff_sound = ExtResource( 9 )
+whiff_sound_volume = 0.0
+hit_sound_volume = -2.0
+knockback = "7"
+launch_reversible = true
+grounded_hit_state = "HurtAerial"
+start_tick = 9
+active_ticks = 3
+
+[node name="IndicatorDraw" type="Node2D" parent="." index="6"]
+visible = false
+modulate = Color( 1, 1, 1, 0.588235 )
+z_index = 4096
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="IndicatorDraw" index="0"]
+margin_left = -20.0
+margin_top = -16.0
+margin_right = 20.0
+margin_bottom = 15.0
+theme = ExtResource( 5 )
+text = "P1"
+align = 1
+valign = 1

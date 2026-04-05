@@ -1,0 +1,183 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sprites/pinsNneedle-Sheet.png" type="Texture" id=1]
+[ext_resource path="res://obj/BaseObj.tscn" type="PackedScene" id=2]
+[ext_resource path="res://characters/stickman/projectiles/fireball_states/Default.gd" type="Script" id=3]
+[ext_resource path="res://projectile/IndicatorDraw.gd" type="Script" id=4]
+[ext_resource path="res://theme.tres" type="Theme" id=5]
+[ext_resource path="res://mechanics/Hitbox.gd" type="Script" id=6]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/FloorSpikesMain.gd" type="Script" id=7]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/Spikes.gd" type="Script" id=8]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/particles/hit_slash_small.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/particles/hit_slash_med.tscn" type="PackedScene" id=10]
+[ext_resource path="res://sound/common/slash3.wav" type="AudioStream" id=11]
+[ext_resource path="res://sound/common/clash3.wav" type="AudioStream" id=12]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 58, 105 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 58, 0, 58, 105 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 116, 0, 58, 105 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 105, 58, 105 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 58, 105, 58, 105 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 1 )
+region = Rect2( 116, 105, 58, 105 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 210, 58, 105 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 1 )
+region = Rect2( 58, 210, 58, 105 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ null ],
+"loop": true,
+"name": "Default",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "Spikes",
+"speed": 5.0
+} ]
+
+[node name="FloorSpikes" instance=ExtResource( 2 )]
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_description_": ""
+}
+max_fall_speed = "10"
+has_projectile_parry_window = false
+immunity_susceptible = true
+deletes_other_projectiles = true
+fizzle_on_ceiling = false
+movable = true
+can_be_hit_by_melee = false
+hit_by_self_projectiles = false
+hit_cancel_on_hit = false
+free_cancel_on_hit = false
+apply_hitlag_when_hit_by_melee = true
+projectile_immune = false
+hitlag_modifier = "1.0"
+
+[node name="Sprite" parent="Flip" index="0"]
+position = Vector2( 1, -21 )
+frames = SubResource( 9 )
+animation = "Default"
+offset = Vector2( 0, -20 )
+
+[node name="CollisionBox" parent="." index="2"]
+width = -1
+height = -1
+
+[node name="Hurtbox" parent="." index="3"]
+width = -1
+height = -1
+
+[node name="Delay" type="Node2D" parent="StateMachine" index="0"]
+script = ExtResource( 3 )
+fallback_state = "Spikes"
+sprite_animation = "Default"
+anim_length = 2
+ticks_per_frame = 2
+move_x = 0
+clash = false
+num_hits = 999
+fizzle_on_ground = false
+fizzle_on_walls = false
+
+[node name="Spikes" type="Node2D" parent="StateMachine" index="1"]
+script = ExtResource( 8 )
+fallback_state = "Delay"
+sprite_animation = "Spikes"
+anim_length = 60
+ticks_per_frame = 2
+
+[node name="Hitbox" type="Node2D" parent="StateMachine/Spikes" index="0"]
+z_index = 1000
+script = ExtResource( 6 )
+y = -36
+width = 31
+height = 37
+damage = 25
+hitstun_ticks = 8
+hitlag_ticks = 2
+victim_hitlag = 0
+hits_otg = true
+di_modifier = "0.3"
+sdi_modifier = "0"
+parriable = false
+plus_frames = 1
+hit_particle = ExtResource( 9 )
+replace_hit_particle = true
+whiff_sound = ExtResource( 12 )
+hit_sound = ExtResource( 11 )
+whiff_sound_volume = -2.0
+hit_sound_volume = -3.0
+dir_y = "1.0"
+knockback = "5"
+vacuum = true
+minimum_grounded_frames = 6
+start_tick = 1
+active_ticks = 6
+looping = true
+
+[node name="Hitbox2" type="Node2D" parent="StateMachine/Spikes" index="1"]
+z_index = 1000
+script = ExtResource( 6 )
+y = -37
+width = 25
+height = 49
+damage = 35
+hitstun_ticks = 6
+hitlag_ticks = 6
+victim_hitlag = 6
+hits_otg = true
+parriable = false
+plus_frames = 1
+group = 1
+hit_particle = ExtResource( 10 )
+replace_hit_particle = true
+whiff_sound = ExtResource( 12 )
+hit_sound = ExtResource( 11 )
+whiff_sound_volume = -2.0
+hit_sound_volume = -3.0
+dir_x = "0.3"
+knockback = "7"
+launch_reversible = true
+minimum_grounded_frames = 6
+start_tick = 9
+active_ticks = 2
+
+[node name="IndicatorDraw" type="Node2D" parent="." index="6"]
+visible = false
+modulate = Color( 1, 1, 1, 0.588235 )
+z_index = 4096
+script = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="IndicatorDraw" index="0"]
+margin_left = -20.0
+margin_top = -16.0
+margin_right = 20.0
+margin_bottom = 15.0
+theme = ExtResource( 5 )
+text = "P1"
+align = 1
+valign = 1

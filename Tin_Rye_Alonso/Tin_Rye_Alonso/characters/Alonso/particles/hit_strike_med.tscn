@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://fx/line.png" type="Texture" id=1]
+[ext_resource path="res://fx/particle_square_hollow_4x4.png" type="Texture" id=2]
+[ext_resource path="res://fx/ParticleEffect.gd" type="Script" id=4]
+[ext_resource path="res://characters/CharacterMaterial.tres" type="Material" id=5]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.261111, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[node name="colored" type="Node2D"]
+material = ExtResource( 5 )
+script = ExtResource( 4 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.064
+one_shot = true
+
+[node name="1color2" type="CPUParticles2D" parent="."]
+amount = 16
+preprocess = 0.05
+speed_scale = 4.0
+explosiveness = 1.0
+lifetime_randomness = 0.6
+texture = ExtResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = true
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 70.0
+initial_velocity_random = 0.7
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 2 )
+
+[node name="1color6" type="CPUParticles2D" parent="."]
+amount = 16
+preprocess = 0.05
+speed_scale = 4.0
+explosiveness = 1.0
+lifetime_randomness = 0.6
+texture = ExtResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = true
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.7
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 2 )
+
+[node name="1color7" type="CPUParticles2D" parent="."]
+amount = 16
+preprocess = 0.05
+speed_scale = 4.0
+explosiveness = 1.0
+lifetime_randomness = 0.3
+texture = ExtResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = true
+spread = 20.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 130.0
+initial_velocity_random = 0.7
+scale_amount = 1.4
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 2 )
+
+[node name="1color4" type="CPUParticles2D" parent="."]
+amount = 14
+preprocess = 0.05
+speed_scale = 4.0
+explosiveness = 1.0
+lifetime_randomness = 0.7
+texture = ExtResource( 1 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_align_y = true
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.5
+scale_amount = 1.5
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 2 )

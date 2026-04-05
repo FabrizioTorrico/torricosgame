@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://characters/CharacterMaterial.tres" type="Material" id=1]
+[ext_resource path="res://fx/ParticleEffect.gd" type="Script" id=2]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sprites/fx/slash1-Sheet.png" type="Texture" id=3]
+[ext_resource path="res://fx/four_point_star.png" type="Texture" id=4]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.261111, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 9
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id=3]
+resource_local_to_scene = true
+offsets = PoolRealArray( 0.00833333, 0.075, 0.233333, 0.377778, 0.497222, 1 )
+colors = PoolColorArray( 0.721569, 0, 1, 1, 1, 1, 1, 1, 0.721569, 0, 1, 1, 1, 1, 1, 1, 0.721569, 0, 1, 1, 0.721569, 0, 1, 0 )
+
+[node name="colored" type="Node2D"]
+material = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.064
+one_shot = true
+
+[node name="1color" type="CPUParticles2D" parent="."]
+amount = 14
+speed_scale = 3.0
+explosiveness = 1.0
+lifetime_randomness = 1.0
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.7
+angular_velocity = -360.0
+angular_velocity_random = 0.5
+angle = 180.0
+angle_random = 1.0
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 2 )
+
+[node name="flicker" type="CPUParticles2D" parent="."]
+material = SubResource( 1 )
+amount = 2
+lifetime = 0.7
+speed_scale = 2.0
+explosiveness = 1.0
+draw_order = 1
+texture = ExtResource( 3 )
+flag_align_y = true
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 1.0
+scale_amount = 0.7
+scale_amount_random = 1.0
+color_ramp = SubResource( 3 )
+anim_speed = 1.0

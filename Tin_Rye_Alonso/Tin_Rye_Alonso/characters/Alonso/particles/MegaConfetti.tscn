@@ -1,0 +1,361 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://characters/CharacterMaterial.tres" type="Material" id=1]
+[ext_resource path="res://fx/ParticleEffect.gd" type="Script" id=2]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sprites/fx/confetti-Sheet.png" type="Texture" id=3]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sprites/fx/confetti.png" type="Texture" id=4]
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0.264045, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0.235955, 1 )
+colors = PoolColorArray( 0.679688, 0.679688, 0.679688, 1, 0.25, 0.25, 0.25, 0 )
+
+[sub_resource type="Gradient" id=6]
+resource_local_to_scene = true
+offsets = PoolRealArray( 0.264045, 1 )
+colors = PoolColorArray( 0.721569, 0, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="CanvasItemMaterial" id=5]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Gradient" id=7]
+resource_local_to_scene = true
+offsets = PoolRealArray( 0.264045, 1 )
+colors = PoolColorArray( 0.721569, 0, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=8]
+resource_local_to_scene = true
+offsets = PoolRealArray( 0.264045, 1 )
+colors = PoolColorArray( 0.721569, 0, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=9]
+resource_local_to_scene = true
+offsets = PoolRealArray( 0.264045, 1 )
+colors = PoolColorArray( 0.721569, 0, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=10]
+resource_local_to_scene = true
+offsets = PoolRealArray( 0.264045, 1 )
+colors = PoolColorArray( 0.721569, 0, 1, 1, 1, 1, 1, 0 )
+
+[node name="colored" type="Node2D"]
+material = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.064
+one_shot = true
+
+[node name="1color" type="CPUParticles2D" parent="."]
+speed_scale = 3.0
+explosiveness = 1.0
+lifetime_randomness = 1.0
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.7
+angular_velocity = -360.0
+angular_velocity_random = 0.5
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.8
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 3 )
+
+[node name="1color2" type="CPUParticles2D" parent="."]
+amount = 6
+speed_scale = 3.0
+explosiveness = 1.0
+lifetime_randomness = 1.0
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.7
+angular_velocity = -360.0
+angular_velocity_random = 0.5
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.8
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 4 )
+
+[node name="gradient1" type="CPUParticles2D" parent="."]
+amount = 14
+speed_scale = 3.0
+explosiveness = 1.0
+lifetime_randomness = 1.0
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.7
+angular_velocity = -360.0
+angular_velocity_random = 0.5
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.8
+color_ramp = SubResource( 6 )
+
+[node name="gradient3" type="CPUParticles2D" parent="."]
+material = SubResource( 5 )
+amount = 20
+lifetime = 2.0
+preprocess = 0.4
+speed_scale = 1.5
+explosiveness = 1.0
+lifetime_randomness = 0.5
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+spread = 25.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 220.0
+initial_velocity_random = 0.9
+angular_velocity = -360.0
+angular_velocity_random = 1.0
+damping = 50.0
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.7
+color_ramp = SubResource( 7 )
+anim_speed = 6.0
+
+[node name="gradient4" type="CPUParticles2D" parent="."]
+amount = 20
+lifetime = 2.0
+preprocess = 0.4
+speed_scale = 1.5
+explosiveness = 1.0
+lifetime_randomness = 0.5
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+spread = 25.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 220.0
+initial_velocity_random = 0.9
+angular_velocity = -360.0
+angular_velocity_random = 0.5
+damping = 50.0
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.7
+color_ramp = SubResource( 8 )
+
+[node name="1color7" type="CPUParticles2D" parent="."]
+material = SubResource( 5 )
+amount = 20
+lifetime = 2.0
+preprocess = 0.4
+speed_scale = 1.5
+explosiveness = 1.0
+lifetime_randomness = 0.5
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+spread = 25.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 220.0
+initial_velocity_random = 0.9
+angular_velocity = -360.0
+angular_velocity_random = 1.0
+damping = 50.0
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.7
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 4 )
+anim_speed = 6.0
+
+[node name="1color8" type="CPUParticles2D" parent="."]
+amount = 20
+lifetime = 2.0
+preprocess = 0.4
+speed_scale = 1.5
+explosiveness = 1.0
+lifetime_randomness = 0.5
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+spread = 25.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 220.0
+initial_velocity_random = 0.9
+angular_velocity = -360.0
+angular_velocity_random = 0.5
+damping = 50.0
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.7
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 4 )
+
+[node name="1color9" type="CPUParticles2D" parent="."]
+material = SubResource( 5 )
+amount = 20
+lifetime = 2.0
+preprocess = 0.4
+speed_scale = 1.5
+explosiveness = 1.0
+lifetime_randomness = 0.5
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+spread = 25.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 220.0
+initial_velocity_random = 0.9
+angular_velocity = -360.0
+angular_velocity_random = 1.0
+damping = 50.0
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.7
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 3 )
+anim_speed = 6.0
+
+[node name="1color10" type="CPUParticles2D" parent="."]
+amount = 20
+lifetime = 2.0
+preprocess = 0.4
+speed_scale = 1.5
+explosiveness = 1.0
+lifetime_randomness = 0.5
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+spread = 25.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 220.0
+initial_velocity_random = 0.9
+angular_velocity = -360.0
+angular_velocity_random = 0.5
+damping = 50.0
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.7
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 3 )
+
+[node name="1color11" type="CPUParticles2D" parent="."]
+material = SubResource( 5 )
+amount = 10
+lifetime = 2.0
+preprocess = 0.4
+speed_scale = 1.5
+explosiveness = 1.0
+lifetime_randomness = 0.7
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector2( 0, -1 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 55.0
+initial_velocity_random = 0.9
+angular_velocity = -360.0
+angular_velocity_random = 1.0
+damping = 10.0
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.7
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 4 )
+anim_speed = 6.0
+
+[node name="gradient5" type="CPUParticles2D" parent="."]
+amount = 10
+lifetime = 2.0
+preprocess = 0.4
+speed_scale = 1.5
+explosiveness = 1.0
+lifetime_randomness = 0.7
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector2( 0, -1 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 55.0
+initial_velocity_random = 0.9
+angular_velocity = -360.0
+angular_velocity_random = 0.5
+damping = 10.0
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.7
+color_ramp = SubResource( 9 )
+
+[node name="1color12" type="CPUParticles2D" parent="."]
+material = SubResource( 5 )
+amount = 10
+lifetime = 2.0
+preprocess = 0.4
+speed_scale = 1.5
+explosiveness = 1.0
+lifetime_randomness = 0.7
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector2( 0, 1 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 55.0
+initial_velocity_random = 0.9
+angular_velocity = -360.0
+angular_velocity_random = 1.0
+damping = 10.0
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.7
+color = Color( 0.721569, 0, 1, 1 )
+color_ramp = SubResource( 4 )
+anim_speed = 6.0
+
+[node name="gradient6" type="CPUParticles2D" parent="."]
+amount = 10
+lifetime = 2.0
+preprocess = 0.4
+speed_scale = 1.5
+explosiveness = 1.0
+lifetime_randomness = 0.7
+texture = ExtResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector2( 0, 1 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 55.0
+initial_velocity_random = 0.9
+angular_velocity = -360.0
+angular_velocity_random = 0.5
+damping = 10.0
+angle = 180.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.7
+color_ramp = SubResource( 10 )

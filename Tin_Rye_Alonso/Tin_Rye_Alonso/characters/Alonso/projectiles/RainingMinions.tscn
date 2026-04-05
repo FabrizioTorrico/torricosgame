@@ -1,0 +1,206 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/RainFall.gd" type="Script" id=1]
+[ext_resource path="res://projectile/IndicatorDraw.gd" type="Script" id=2]
+[ext_resource path="res://mechanics/Hitbox.gd" type="Script" id=3]
+[ext_resource path="res://theme.tres" type="Theme" id=4]
+[ext_resource path="res://obj/BaseObj.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/sprites/summons/doll_spin-Sheet.png" type="Texture" id=6]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/particles/hit_strike_small.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/particles/impact1.tscn" type="PackedScene" id=8]
+[ext_resource path="res://sound/common/hit4.wav" type="AudioStream" id=9]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/RainImpact.gd" type="Script" id=10]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/RainDefault.gd" type="Script" id=11]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/projectiles/RainingMinions.gd" type="Script" id=12]
+[ext_resource path="res://Tin_Rye_Alonso/characters/Alonso/particles/confetti.tscn" type="PackedScene" id=13]
+[ext_resource path="res://sound/common/explosion1.wav" type="AudioStream" id=14]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 28, 40 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 6 )
+region = Rect2( 28, 0, 28, 40 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 40, 28, 40 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 6 )
+region = Rect2( 28, 40, 28, 40 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ null ],
+"loop": true,
+"name": "hidden",
+"speed": 5.0
+} ]
+
+[node name="Rain Minion" instance=ExtResource( 5 )]
+script = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+max_fall_speed = "12"
+extra_state_variables = "delay"
+has_projectile_parry_window = false
+immunity_susceptible = true
+deletes_other_projectiles = false
+fizzle_on_ceiling = false
+movable = true
+can_be_hit_by_melee = false
+hit_by_self_projectiles = false
+hit_cancel_on_hit = false
+free_cancel_on_hit = false
+apply_hitlag_when_hit_by_melee = true
+projectile_immune = false
+hitlag_modifier = "1.0"
+
+[node name="Sprite" parent="Flip" index="0"]
+frames = SubResource( 5 )
+animation = "hidden"
+offset = Vector2( 0, -17 )
+
+[node name="CollisionBox" parent="." index="2"]
+y = -9
+width = 5
+height = 5
+
+[node name="Hurtbox" parent="." index="3"]
+y = -9
+width = 10
+height = 10
+
+[node name="Default" type="Node2D" parent="StateMachine" index="0"]
+script = ExtResource( 11 )
+__meta__ = {
+"_editor_description_": ""
+}
+reset_momentum = true
+apply_custom_limits = true
+custom_max_air_speed = "6"
+custom_max_ground_speed = "6"
+fallback_state = "Default"
+sprite_animation = "hidden"
+anim_length = 300
+loop_animation = true
+refresh_loop = false
+
+[node name="Falling" type="Node2D" parent="StateMachine" index="1"]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+reset_momentum = true
+apply_custom_limits = true
+custom_max_air_speed = "6"
+custom_max_ground_speed = "6"
+fallback_state = "Default"
+sprite_animation = "default"
+anim_length = 120
+ticks_per_frame = 2
+loop_animation = true
+absolute_loop = true
+endless = true
+enter_force_dir_y = "1"
+enter_force_speed = "15"
+
+[node name="Hitbox" type="Node2D" parent="StateMachine/Falling" index="0"]
+z_index = 1000
+script = ExtResource( 3 )
+y = -20
+width = 12
+damage = 50
+hitstun_ticks = 14
+hitlag_ticks = 6
+can_clash = false
+hits_projectiles = false
+parriable = false
+hit_particle = ExtResource( 7 )
+replace_hit_particle = true
+whiff_sound = null
+hit_sound_volume = -2.0
+dir_x = "0"
+dir_y = "1.0"
+knockback = "10"
+grounded_hit_state = "HurtAerial"
+minimum_grounded_frames = 6
+knockdown = true
+ground_bounce = false
+start_tick = 1
+active_ticks = 2
+always_on = true
+
+[node name="Impact" type="Node2D" parent="StateMachine" index="2"]
+script = ExtResource( 10 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_custom_limits = true
+custom_max_air_speed = "6"
+custom_max_ground_speed = "6"
+fallback_state = "Default"
+sprite_animation = "hidden"
+anim_length = 20
+sprite_anim_length = 4
+ticks_per_frame = 2
+loop_animation = true
+particle_scene = ExtResource( 8 )
+particle_position = Vector2( 0, -4 )
+spawn_particle_on_enter = true
+timed_particle_scene = ExtResource( 13 )
+timed_particle_position = Vector2( 0, -4 )
+timed_spawn_particle_tick = 0
+
+[node name="Hitbox" type="Node2D" parent="StateMachine/Impact" index="0"]
+z_index = 1000
+script = ExtResource( 3 )
+y = -14
+width = 25
+height = 14
+damage = 60
+hitstun_ticks = 14
+hitlag_ticks = 6
+can_clash = false
+hits_projectiles = false
+parriable = false
+plus_frames = 2
+hit_particle = ExtResource( 7 )
+replace_hit_particle = true
+whiff_sound = ExtResource( 14 )
+hit_sound = ExtResource( 9 )
+whiff_sound_volume = 0.0
+hit_sound_volume = 0.0
+dir_x = "0.6"
+knockback = "8"
+launch_reversible = true
+grounded_hit_state = "HurtAerial"
+start_tick = 1
+active_ticks = 2
+
+[node name="IndicatorDraw" type="Node2D" parent="." index="6"]
+visible = false
+modulate = Color( 1, 1, 1, 0.588235 )
+z_index = 4096
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="IndicatorDraw" index="0"]
+margin_left = -20.0
+margin_top = -16.0
+margin_right = 20.0
+margin_bottom = 15.0
+theme = ExtResource( 4 )
+text = "P1"
+align = 1
+valign = 1

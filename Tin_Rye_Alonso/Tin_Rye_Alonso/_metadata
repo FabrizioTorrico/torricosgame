@@ -1,0 +1,15 @@
+{
+  "author": "TinFoilMkIV, Ryedork",
+  "client_side": false,
+  "description": "",
+  "friendly_name": "Alonso_TR",
+  "id": "12345",
+  "link": "",
+  "name": "Alonso",
+  "overwrites": false,
+  "priority": 0,
+  "requires": [
+    ""
+  ],
+  "version": ""
+}

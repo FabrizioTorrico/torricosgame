@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://c1vu53uu8s28d"]
+
+[node name="MainMenu" type="Node2D" unique_id=71586364]
+
+[node name="Control" type="Control" parent="." unique_id=677067730]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Hostear" type="Button" parent="Control" unique_id=1774157420]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Unirse" type="Button" parent="Control" unique_id=72479646]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="LineEdit" type="LineEdit" parent="Control" unique_id=990615848]
+layout_mode = 0
+offset_right = 68.5
+offset_bottom = 31.0
